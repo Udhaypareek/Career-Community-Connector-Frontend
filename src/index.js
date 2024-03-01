@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import './index.css';
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+import { ChakraProvider } from '@chakra-ui/react';
+import ChatProvider from './Context/ChatProvider';
+
+import Authpage from './Pages/Authpage';
+import ChatPage from './Pages/ChatPage';
+import Homepage from './Pages/Homepage';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Authpage />,
+  },
+  {
+    path: '/home',
+    element: <Homepage />,
+  },
+  {
+    path: '/chat',
+    element: <ChatPage />,
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+        <ChakraProvider>
+          <ChatProvider>
+            <RouterProvider router={router} />
+          </ChatProvider>
+        </ChakraProvider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
