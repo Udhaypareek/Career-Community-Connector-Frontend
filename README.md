@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Career Community Connector
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Career Community Connector is a web application designed to facilitate connections among individuals within the same professional domain. It offers various features to enhance networking, learning, and collaboration within the community.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 1. Login Page
+Users can sign in to their accounts securely to access the platform's features.
 
-### `npm start`
+### 2. Home Page (Fututre Enhancement)
+Upon successful login, users are redirected to the home page where they can find four main sections:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Personal Chat**: Allows users to engage in private conversations with other users.
+- **Global Chat**: Provides a platform for users to interact with others within the same professional domain.
+- **Question Generator**: Generates random questions related to the user's selected domain to foster learning and knowledge sharing.
+- **Ask Any Doubt**: Enables users to post questions or doubts they have, and receive assistance from peers or AI-generated answers.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 3. Navbar(Future Enhancement)
+The navigation bar at the top of the page provides users with access to various details and features, including:
 
-### `npm test`
+- **User Profile**: Users can view their profile details, including the time spent on the website and the number of questions answered correctly.
+- **Settings**: Allows users to customize their preferences and account settings.
+- **Logout**: Logs the user out of the platform.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- **Frontend**: HTML, CSS, JavaScript, React.js
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: JSON Web Tokens (JWT)
+- **Real-time Communication**: Socket.io
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+2. Install dependencies:
+cd career-community-connector
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Set up environment variables:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create a `.env` file in the root directory and add the necessary environment variables:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+PORT=3000
+MONGODB_URI= 
+JWT_SECRET=your_jwt_secret_key
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Start the server: npm start
 
-### Code Splitting
+5. Access the application at `http://localhost:3000` in your browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
+Contributions are welcome! Please feel free to open issues or pull requests to suggest improvements or report bugs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
