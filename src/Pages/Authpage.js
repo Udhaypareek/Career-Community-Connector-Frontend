@@ -16,11 +16,11 @@ import Signup from "../components/Authentication/Signup";
 function Authpage() {
   const Navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("userInfo"));
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
 
-  //   if (user) Navigate("/chats");
-  // }, [Navigate]);
+    if (user) Navigate("/");
+  }, [Navigate]);
 
   return (
     <Container maxW="xl" centerContent>

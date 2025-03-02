@@ -15,7 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const setUser = ChatState(); 
+  const { setUser } = ChatState();
   const Navigate = useNavigate();
 
 
@@ -56,9 +56,9 @@ const Login = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      // Navigate("/home");
-      Navigate("/chat");
-      // setUser(data);
+      setUser(data);
+      Navigate("/");
+      // Navigate("/chat");
     }
 
     catch (error) {

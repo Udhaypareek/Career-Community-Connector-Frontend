@@ -1,12 +1,16 @@
 import React from 'react'
-import Navbar from '../components/Homepagecomp/Navbar';
-// import cards from '../components/Homepagecomp/cards';
+import SideDrawer from '../components/miscellaneous/SideDrawer';
+import Cards from '../components/Homepagecomp/cards';
 
 const Homepage = () => {
   return (
     <>
-    <Navbar/>
+    <SideDrawer />
+    <Cards />
     </>
+      
+     
+    
   )
 }
 

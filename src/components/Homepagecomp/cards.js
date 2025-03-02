@@ -1,17 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import Card_option from './card_option'
+import {  Stack } from '@chakra-ui/react'
 
-export default function cards() {
-  return (
-    <div ClassName="card" style={{ width: '18rem' }}>
-  <img src="..." ClassName="card-img-top" alt="..."/>
-  <div ClassName="card-body">
-    <h5 ClassName="card-title">Private Chats</h5>
-    <p ClassName="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, dicta iure. Iusto ipsa accusamus eaque doloribus, dolores iste eius eveniet, aspernatur et quo voluptas. Nobis consequatur optio ratione, atque pariatur facilis quos omnis fugit!</p>
-    <Link to="/chats" ClassName="btn btn-primary">Click to Talk!</Link>
-  </div>
-</div>
-  )
-};
+const Cards = () => {
+    return (
+        <>
+        <Stack direction="row" justifyContent={'space-around'} >
+            <Card_option heading={"Group Chat"} content={"A Place for all your groups that connects you wtih your peers."} />
+            <Card_option heading={"Private Chat"} content={"A Place for all your personal connects wtih your peers."} />
+        </Stack>
+        <Stack direction="row" justifyContent={'space-around'} mt={4}>
+            <Card_option heading={"Quiz"} content={"A Place for solving questions wtih your peers."} />
+            <Card_option heading={"Study"} content={"A Place for studying with your peers on video call."} />
+        </Stack>
+        </>
+    )
+}
 
-
+export default Cards
