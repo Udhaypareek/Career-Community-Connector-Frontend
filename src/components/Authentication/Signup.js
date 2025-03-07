@@ -1,8 +1,13 @@
-import { Button } from "@chakra-ui/button";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
-import { VStack } from "@chakra-ui/layout";
-import { useToast } from "@chakra-ui/toast";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  VStack,
+  useToast
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -46,7 +51,7 @@ const Signup = () => {
       setPicLoading(false);
       return;
     }
-    try{
+    try {
       // console.log(name, email, password, pic);
       const config = {
         headers: {
@@ -188,7 +193,7 @@ const Signup = () => {
           type="file"
           p={1.5}
           accept="image/*"
-          // onChange={(e) => postDetails(e.target.files[0])}
+        // onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
       <Button

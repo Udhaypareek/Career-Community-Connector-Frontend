@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { Button } from "@chakra-ui/react";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
-import { VStack } from "@chakra-ui/layout";
+import React, { useState } from "react";import { 
+  Button, 
+  FormControl, 
+  FormLabel, 
+  Input, 
+  InputGroup, 
+  InputRightElement, 
+  VStack, 
+  useToast 
+} from "@chakra-ui/react";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 

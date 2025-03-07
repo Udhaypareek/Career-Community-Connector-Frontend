@@ -81,7 +81,7 @@ const SideDrawer = () => {
       const config = { headers: { "Content-Type": "application/json", Authorization: `Bearer ${user.token}` } };
       const { data } = await axios.post("http://localhost:5000/api/chat", { userId }, config);
 
-      if (!chats.some((chat) => chat._id === data._id)) {
+      if (!chats?.some((chat) => chat._id === data._id)) {
         setChats([data, ...chats]);
       }
 
@@ -98,6 +98,7 @@ const SideDrawer = () => {
       });
     } finally {
       setLoadingChat(false);
+      navigate("/chat")
     }
   };
 

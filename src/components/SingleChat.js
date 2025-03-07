@@ -1,7 +1,18 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Text, Flex, VStack, Input, IconButton, Spinner, useToast, HStack, Avatar } from "@chakra-ui/react";
+import {
+  Box, Text, Flex, VStack, Input, IconButton,
+  Spinner, useToast, HStack, Avatar, FormControl,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button
+} from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { FormControl } from "@chakra-ui/form-control";
 import axios from "axios";
 import io from "socket.io-client";
 import Lottie from "react-lottie";
@@ -11,6 +22,8 @@ import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
+import { FaStar } from "react-icons/fa";
+import Whiteboard from "./miscellaneous/Whiteboard";
 
 const ENDPOINT = "http://localhost:5000";
 let socket, selectedChatCompare;
@@ -25,6 +38,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
 
   const { selectedChat, setSelectedChat, user, notification, setNotification } = ChatState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const defaultOptions = {
     loop: true,
@@ -96,6 +110,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     return () => {
       socket.off("message received", handleMessageReceived);
     };
+    // eslint-disable-next-line
   }, [selectedChatCompare, notification, setNotification, setFetchAgain]);
 
   const typingHandler = (e) => {
@@ -117,9 +132,39 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         <>
           <Flex justifyContent="space-between" alignItems="center" pb={3}>
             <IconButton icon={<ArrowBackIcon />} onClick={() => setSelectedChat("")} display={{ base: "flex", md: "none" }} />
+
             <Text fontSize={{ base: "20px", md: "24px" }} fontWeight="bold">
               {selectedChat.isGroupChat ? selectedChat.chatName.toUpperCase() : getSender(user, selectedChat.users)}
             </Text>
+            {/* code for whiteboard modal */}
+            <IconButton
+              icon={<FaStar />}
+              aria-label="Open Whiteboard"
+              onClick={onOpen}
+              size="lg"
+              colorScheme="yellow"
+              borderRadius="full"
+            />
+
+            <Box position="absolute" top="10px" right="60px">
+              <Modal isOpen={isOpen} onClose={onClose} size="xl">
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Interactive Whiteboard</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <Whiteboard onClose={onClose} />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button colorScheme="red" onClick={onClose}>
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
+            </Box>
+
+
             {!selectedChat.isGroupChat ? <ProfileModal user={getSenderFull(user, selectedChat.users)} /> : <UpdateGroupChatModal fetchMessages={fetchMessages} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
           </Flex>
           <Box flexGrow={1} overflowY="auto" p={3} bg="#E8E8E8" borderRadius="lg">
@@ -127,7 +172,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {istyping && (
               <HStack alignSelf="flex-start" mt={2} ml={0}>
                 <Avatar size="xs" />
-                <Lottie options={defaultOptions} width={50} height={30}/>
+                <Lottie options={defaultOptions} width={50} height={30} />
               </HStack>
             )}
           </Box>
