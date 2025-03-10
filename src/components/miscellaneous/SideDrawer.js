@@ -59,7 +59,7 @@ const SideDrawer = () => {
     try {
       setLoading(true);
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
+      const { data } = await axios.get(`https://career-community-connector-backend.onrender.com/api/user?search=${search}`, config);
       setSearchResult(data);
     } catch (error) {
       toast({
@@ -79,7 +79,7 @@ const SideDrawer = () => {
     try {
       setLoadingChat(true);
       const config = { headers: { "Content-Type": "application/json", Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post("http://localhost:5000/api/chat", { userId }, config);
+      const { data } = await axios.post("https://career-community-connector-backend.onrender.com/api/chat", { userId }, config);
 
       if (!chats?.some((chat) => chat._id === data._id)) {
         setChats([data, ...chats]);

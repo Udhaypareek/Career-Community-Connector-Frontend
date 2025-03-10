@@ -4,7 +4,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import  * as fabric from "fabric";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://career-community-connector-backend.onrender.com");
 
 const Whiteboard = () => {
     const canvasRef = useRef(null);

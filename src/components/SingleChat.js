@@ -25,7 +25,7 @@ import { getSender, getSenderFull } from "../config/ChatLogics";
 import { FaStar } from "react-icons/fa";
 import Whiteboard from "./miscellaneous/Whiteboard";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://career-community-connector-backend.onrender.com";
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
