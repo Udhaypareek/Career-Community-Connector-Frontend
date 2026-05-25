@@ -21,21 +21,21 @@ import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
+import { API_BASE_URL } from "../../config/apiConfig";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
-  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
   const toast = useToast();
 
-  const { selectedChat, setSelectedChat, user } = ChatState();
+  const { selectedChat, setSelectedChat, user, chatSocketRef } = ChatState();
 
   const handleSearch = async (query) => {
-    setSearch(query);
     if (!query) {
+      setSearchResult([]);
       return;
     }
 
@@ -46,7 +46,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`https://career-community-connector-backend.onrender.com/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${API_BASE_URL}/api/user?search=${query}`, config);
       // console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -74,7 +74,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `https://career-community-connector-backend.onrender.com/api/chat/rename`,
+        `${API_BASE_URL}/api/chat/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -86,6 +86,12 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       // setSelectedChat("");
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      chatSocketRef.current?.emit("group updated", {
+        chat: data,
+        type: "group-renamed",
+        actorId: user._id,
+        actorName: user.name,
+      });
       setRenameLoading(false);
     } catch (error) {
       toast({
@@ -132,7 +138,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `https://career-community-connector-backend.onrender.com/api/chat/groupadd`,
+        `${API_BASE_URL}/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -142,6 +148,14 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      chatSocketRef.current?.emit("group updated", {
+        chat: data,
+        type: "group-user-added",
+        actorId: user._id,
+        actorName: user.name,
+        userId: user1._id,
+        addedUserName: user1.name,
+      });
       setLoading(false);
     } catch (error) {
       toast({
@@ -177,7 +191,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `https://career-community-connector-backend.onrender.com/api/chat/groupremove`,
+        `${API_BASE_URL}/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -187,6 +201,14 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      chatSocketRef.current?.emit("group updated", {
+        chat: data,
+        type: "group-user-removed",
+        actorId: user._id,
+        actorName: user.name,
+        userId: user1._id,
+        addedUserName: user1.name,
+      });
       fetchMessages();
       setLoading(false);
     } catch (error) {

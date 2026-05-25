@@ -2,22 +2,24 @@ import { useEffect, useRef, useState } from "react";
 import { Box, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import  * as fabric from "fabric";
-import io from "socket.io-client";
 
-const socket = io("https://career-community-connector-backend.onrender.com");
-
-const Whiteboard = () => {
+const Whiteboard = ({ socket, roomId }) => {
     const canvasRef = useRef(null);
     const [canvas, setCanvas] = useState(null);
 
     useEffect(() => {
         if (!canvasRef.current) return;
 
+        // Ensure this socket is in the room so draw events are bidirectional
+        if (socket && roomId) {
+            socket.emit("join chat", roomId);
+        }
+
         // Initialize Fabric.js Canvas
         const fabricCanvas = new fabric.Canvas(canvasRef.current, {
             isDrawingMode: true,
             backgroundColor: "#fff",
-            width: 500,
+            width: Math.min(500, window.innerWidth - 72),
             height: 300,
         });
 
@@ -31,45 +33,23 @@ const Whiteboard = () => {
         // 🔹 Emit drawing event when a user draws
         fabricCanvas.on("path:created", (event) => {
             const pathData = event.path.toObject(); // Convert to JSON
-            socket.emit("draw", pathData);
+            socket?.emit("draw", { roomId, pathData });
         });
 
         // 🔹 Listen for incoming draw events
-        const handleDraw = (data) => {
+        const handleDraw = async (data) => {
             if (!fabricCanvas) {
                 console.error("Canvas is not initialized");
                 return;
             }
-            
-            console.log("Received data:", data);
-            
+
             try {
-                // Make sure we're working with proper data
-                const objectData = typeof data === 'string' ? JSON.parse(data) : data;
-                console.log("Processing data type:", objectData.type);
-                
-                // Create object based on type
-                let fabricObject;
-                
-                if (objectData.type === 'Path') {
-                    fabricObject = new fabric.Path(objectData.path, objectData);
-                } else if (objectData.type === 'Rect') {
-                    fabricObject = new fabric.Rect(objectData);
-                } else if (objectData.type === 'Circle') {
-                    fabricObject = new fabric.Circle(objectData);
-                } else if (objectData.type === 'Polyline') {
-                    fabricObject = new fabric.Polyline(objectData.points, objectData);
-                } else {
-                    console.warn("Unsupported object type:", objectData.type);
-                    return;
-                }
-                
-                console.log("Object created:", fabricObject);
-                
+                const objectData = typeof data === "string" ? JSON.parse(data) : data;
+                const [fabricObject] = await fabric.util.enlivenObjects([objectData]);
+
                 if (fabricObject) {
                     fabricCanvas.add(fabricObject);
                     fabricCanvas.renderAll();
-                    console.log("Object added to canvas");
                 }
             } catch (error) {
                 console.error("Error handling draw data:", error);
@@ -83,27 +63,27 @@ const Whiteboard = () => {
             fabricCanvas.backgroundColor = "#fff";
         };
 
-        socket.on("draw", handleDraw);
-        socket.on("clear", handleClear);
+        socket?.on("draw", handleDraw);
+        socket?.on("clear", handleClear);
 
         return () => {
-            socket.off("draw", handleDraw);
-            socket.off("clear", handleClear);
+            socket?.off("draw", handleDraw);
+            socket?.off("clear", handleClear);
             fabricCanvas.dispose();
         };
-    }, []);
+    }, [socket, roomId]);
 
     // Clear the whiteboard and notify others
     const handleClear = () => {
         if (canvas) {
             canvas.clear();
             canvas.backgroundColor = "#fff";
-            socket.emit("clear");
+            socket?.emit("clear", { roomId });
         }
     };
 
     return (
-        <Box bg="white" p={4} borderRadius="lg" shadow="md">
+        <Box bg="white" p={4} borderRadius="lg" shadow="md" overflowX="auto">
             <canvas ref={canvasRef} />
             <Box mt={4} display="flex" justifyContent="space-between">
                 <IconButton

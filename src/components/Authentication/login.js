@@ -1,4 +1,5 @@
-import React, { useState } from "react";import { 
+import React, { useState } from "react";
+import { 
   Button, 
   FormControl, 
   FormLabel, 
@@ -6,11 +7,13 @@ import React, { useState } from "react";import {
   InputGroup, 
   InputRightElement, 
   VStack, 
-  useToast 
+  useToast,
+  Text
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
+import { API_BASE_URL } from "../../config/apiConfig";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -43,9 +46,8 @@ const Login = () => {
           "Content-type": "application/json",
         },
       };
-
       const { data } = await axios.post(
-        "https://career-community-connector-backend.onrender.com/api/user/login",
+        `${API_BASE_URL}/api/user/login`,
         { email, password },
         config
       );
@@ -61,7 +63,8 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       setUser(data);
-      Navigate("/");
+      const nextRoute = data?.selectedTracks?.length ? "/chat" : "/onboarding";
+      Navigate(nextRoute);
       // Navigate("/chat");
     }
 
@@ -79,7 +82,10 @@ const Login = () => {
   };
   
   return (
-    <VStack spacing="10px">
+    <VStack spacing={4} align="stretch">
+      <Text fontSize="sm" color="text.muted">
+        Welcome back. Continue your study journey.
+      </Text>
       <FormControl id="email" isRequired>
         <FormLabel>Email Address</FormLabel>
         <Input
@@ -106,17 +112,16 @@ const Login = () => {
         </InputGroup>
       </FormControl>
       <Button
-        colorScheme="blue"
+        colorScheme="brand"
         width="100%"
-        style={{ marginTop: 15 }}
         onClick={submitHandler}
         isLoading={loading}
       >
         Login
       </Button>
       <Button
-        variant="solid"
-        colorScheme="red"
+        variant="outline"
+        colorScheme="gray"
         width="100%"
         onClick={() => {
           setEmail("guest@example.com");

@@ -10,17 +10,20 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
       display={{ base: selectedChat ? "flex" : "none", md: "flex" }}
       alignItems="center"
       flexDirection="column"
-      p={4}
-      bg="white"
+      p={{ base: 2, md: 4 }}
+      bg="bg.surface"
       w={{ base: "100%", md: "68%" }}
-      borderRadius="lg"
+      h="100%"
+      minH={0}
+      borderRadius="xl"
       borderWidth="1px"
-      boxShadow="md"
+      borderColor="border.subtle"
+      boxShadow="sm"
     >
       {selectedChat ? (
         <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
       ) : (
-        <Box textAlign="center" color="gray.500" fontSize="lg">
+        <Box textAlign="center" color="text.muted" fontSize="lg">
           Select a chat to start messaging
         </Box>
       )}

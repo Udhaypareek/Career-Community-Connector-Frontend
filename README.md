@@ -1,60 +1,60 @@
-# Career Community Connector
+# Career Community Connector (Frontend)
 
-Career Community Connector is a web application designed to facilitate connections among individuals within the same professional domain. It offers various features to enhance networking, learning, and collaboration within the community.
+Career Community Connector is a real-time community chat and collaboration app. This README summarizes what the app currently does and the tech stack for both frontend and backend.
 
-## Features
+## Current Capabilities
 
-### 1. Login Page
-Users can sign in to their accounts securely to access the platform's features.
+- User authentication: sign up, log in, and persist sessions in local storage.
+- User search: search users by name or email.
+- 1:1 chat: create/access direct chats and view chat list.
+- Group chat: create group chats, rename groups, add/remove members.
+- Real-time messaging: send/receive messages with Socket.io updates.
+- Typing indicators and message notifications.
+- Whiteboard collaboration: live drawing and board clear events.
+- Video calling: peer-to-peer calls with camera/mic, mute/video toggle, and screen share.
 
-### 2. Home Page (Fututre Enhancement)
-Upon successful login, users are redirected to the home page where they can find four main sections:
+## Tech Stack
 
-- **Personal Chat**: Allows users to engage in private conversations with other users.
-- **Global Chat**: Provides a platform for users to interact with others within the same professional domain.
-- **Question Generator**: Generates random questions related to the user's selected domain to foster learning and knowledge sharing.
-- **Ask Any Doubt**: Enables users to post questions or doubts they have, and receive assistance from peers or AI-generated answers.
+### Frontend
 
-### 3. Navbar(Future Enhancement)
-The navigation bar at the top of the page provides users with access to various details and features, including:
+- React 18 with React Router
+- Chakra UI and React Icons for UI
+- Axios for REST API calls
+- Socket.io client for realtime updates
+- PeerJS for WebRTC video calling
+- Fabric.js for the whiteboard canvas
 
-- **User Profile**: Users can view their profile details, including the time spent on the website and the number of questions answered correctly.
-- **Settings**: Allows users to customize their preferences and account settings.
-- **Logout**: Logs the user out of the platform.
+### Backend
 
-## Technologies Used
+- Node.js with Express
+- MongoDB with Mongoose
+- JWT authentication and bcrypt password hashing
+- Socket.io for realtime messaging and whiteboard events
+- CORS and dotenv for configuration
 
-- **Frontend**: HTML, CSS, JavaScript, React.js
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **Authentication**: JSON Web Tokens (JWT)
-- **Real-time Communication**: Socket.io
+## Backend API (High-Level)
 
-## Installation
+The frontend consumes these backend areas:
 
-1. Clone the repository:
+- Users: register, login, and user search
+- Chats: access direct chats, list chats, create/rename group chats, add/remove members
+- Messages: fetch and send messages per chat
 
+## Environment Variables (Frontend)
 
-2. Install dependencies:
-cd career-community-connector
-npm install
+Create a file in the frontend root (same folder as package.json):
 
+```
+REACT_APP_BACKEND_URL=http://localhost:5000
+```
 
-3. Set up environment variables:
+Restart the dev server after any changes to env files.
 
-Create a `.env` file in the root directory and add the necessary environment variables:
+## Scripts
 
-PORT=3000
-MONGODB_URI= 
-JWT_SECRET=your_jwt_secret_key
-
-
-
-4. Start the server: npm start
-
-5. Access the application at `http://localhost:3000` in your browser.
-
-## Contributing
-
-Contributions are welcome! Please feel free to open issues or pull requests to suggest improvements or report bugs.
+```
+npm start
+npm test
+npm run build
+```
 

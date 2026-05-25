@@ -6,12 +6,14 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
-  useToast
+  useToast,
+  Text
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ChatState } from "../../Context/ChatProvider";
+import { API_BASE_URL } from "../../config/apiConfig";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -59,7 +61,7 @@ const Signup = () => {
         }
       }
       const { data } = await axios.post(
-        "https://career-community-connector-backend.onrender.com/api/user/",
+        `${API_BASE_URL}/api/user/`,
         {
           name,
           email,
@@ -79,8 +81,7 @@ const Signup = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
       setUser(data);
-      // Navigate("/chat");
-      Navigate("/");
+      Navigate("/onboarding");
     }
     catch (error) {
       toast({
@@ -141,7 +142,10 @@ const Signup = () => {
   // };
 
   return (
-    <VStack spacing="5px">
+    <VStack spacing={4} align="stretch">
+      <Text fontSize="sm" color="text.muted">
+        Create your account and pick your study tracks.
+      </Text>
       <FormControl id="first-name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
@@ -197,9 +201,8 @@ const Signup = () => {
         />
       </FormControl>
       <Button
-        colorScheme="blue"
+        colorScheme="brand"
         width="100%"
-        style={{ marginTop: 15 }}
         onClick={submitHandler}
         isLoading={picLoading}
       >
